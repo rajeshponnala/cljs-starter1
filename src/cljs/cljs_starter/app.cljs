@@ -15,3 +15,24 @@
 
 (defcard first-card
   (sab/html  [:h "Hello Rajesh!"]))
+
+(defcard {:this "is a map"})
+
+(defcard text-box
+  (sab/html [:input {:id "txtBox" :type "text"}])
+  )
+(defonce observed-atom
+  (let [a (atom 0)]
+    (js/setInterval (fn [] (swap! observed-atom inc)) 1000)
+    a))
+
+(defcard atom-observing-card observed-atom)
+
+(defcard
+  (fn [data-atom owner]
+    (sab/html
+     [:div
+      [:h3 "Example: Counter: " (:count @data-atom)]
+      [:button
+       {:onClick (fn [] (swap! data-atom update-in [:count] inc))}
+       "inc"]])))
